@@ -1,0 +1,146 @@
+ <meta charset="UTF-8">
+  <title>Noxwind: Necromancer</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #ui {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(0,0,0,0.5); color: white;
+      padding: 10px; font-family: sans-serif;
+      max-width: 400px; border-radius: 8px;
+    }
+    #dialogue { margin-top: 10px; }
+    .choice { padding: 4px 6px; }
+    .selected { background: rgba(255,255,255,0.3); }
+    #redFlash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,0,0,0.3);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+  </style>
+
+
+	<!-- MOBILE CONTROLS -->
+<div id="mobileUI" style="display:none">
+  <!-- D-PAD -->
+  <div id="dpad" class="stick">
+<button id="enterBtn">ENTER</button>
+    <div class="btn up">▲</div>
+    <div class="btn left">◀</div>
+    <div class="btn right">▶</div>
+    <div class="btn down">▼</div>
+  </div>
+
+  <!-- CAMERA STICK -->
+  <div id="camStick" class="stick circle"></div>
+
+  <!-- ACTION BUTTONS -->
+  <div id="actionBtns">
+    <button data-act="attack">⚔</button>
+    <button data-act="interact">E</button>
+    <button data-act="jump">⤒</button>
+    <button data-act="inv">🎒</button>
+  </div>
+
+</div>
+
+<style>
+#mobileUI {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  font-size: 24px;
+}
+
+.stick, #actionBtns button {
+  pointer-events: auto;
+}
+
+.stick {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.btn {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.up { top:0; left:47px; }
+.down { bottom:0; left:47px; }
+.left { left:0; top:47px; }
+.right { right:0; top:47px; }
+
+#actionBtns {
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+#actionBtns button {
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  border:none;
+  background:rgba(255,255,255,0.25);
+  font-size:22px;
+}
+</style>
+
+<div id="ui">
+  <div>Gold: <span id="gold">0</span></div>
+  <div>Inventory: <span id="inv">empty</span></div>
+  <div id="health">❤️❤️❤️❤️❤️</div>
+  <div id="dialogue"></div>
+  <!-- Examine overlay -->
+	<div id="examineOverlay" style="
+	position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+	background:rgba(0,0,0,0.85); z-index:10000;
+	">
+	<img id="examineImgView" style="
+		max-width:90vw; max-height:90vh; object-fit:contain;
+		box-shadow:0 10px 30px rgba(0,0,0,0.6);
+	">
+	</div>
+	<!-- Hint UI -->
+	<div id="hintUI" style="
+	position:fixed;
+	left:50%;
+	bottom:14%;
+	transform:translateX(-50%);
+	padding:10px 14px;
+	background:rgba(0,0,0,0.55);
+	color:white;
+	font-family:Arial, sans-serif;
+	font-size:16px;
+	border-radius:10px;
+	display:none;
+	z-index:9999;
+	user-select:none;
+	pointer-events:none;
+	white-space:nowrap;
+	">
+	</div>
+</div>
+<div id="redFlash"></div>
+
+<script src="necr-day-out-eng.js"></script>
